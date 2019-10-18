@@ -1,4 +1,4 @@
-const { json, send, createError } = require('micro');
+const { json, text, send, createError } = require('micro');
 const { compareSync, hash } = require('bcrypt');
 const { sign, verify } = require('jsonwebtoken');
 var mongoose = require('mongoose');
@@ -33,10 +33,11 @@ const auth = ({ username, password }) =>
     return { token: token };
   });
 
-const decode = token => verify(token, secret);
+
+const decode = token => verify(token, secret); // verify() returns the User._id
 
 module.exports.login = async (req, res) => {
-  await auth(await json(req));
+  return await auth(await json(req));
 }
 
 module.exports.decode = (req, res) => decode(req.headers['authorization']);

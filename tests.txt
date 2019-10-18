@@ -1,0 +1,41 @@
+Start the server in dev:
+$ MONGODB=mongodb://localhost/test2 SECRET=123456 npm run dev
+
+Start the server in prod:
+$ MONGODB=mongodb://localhost/test2 SECRET=123456 npm run start
+
+
+Test login:
+
+POST /api/authentication HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+cache-control: no-cache
+Postman-Token: 85401949-a0fd-4d2a-8523-64cbf0431cf9
+{ "username": "admin", "password": "password" }------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+Response to the above is:
+{
+  "token": "eyJhbGciOiJIUzI1NiJ9.NWRhOTkzOTk0ZjdlMDIzY2Y4OWMwN2Q3.UsbdIchpuN-a14njjXpV5g1b3ME1GgSpgAIof-lajMs"
+}
+
+Test verify token:
+
+GET /api/users HTTP/1.1
+Host: localhost:3000
+authorization: eyJhbGciOiJIUzI1NiJ9.NWRhOTkzOTk0ZjdlMDIzY2Y4OWMwN2Q3.UsbdIchpuN-a14njjXpV5g1b3ME1GgSpgAIof-lajMs
+cache-control: no-cache
+Postman-Token: a1ccf545-4a82-46f4-a8a0-857f566c4f60
+
+
+Response to the above is:
+
+[
+    {
+        "_id": "5da993994f7e023cf89c07d7",
+        "username": "admin",
+        "password": "$2b$04$pQrBuhJvqtPA3fzDM9htSuiyfggf94fMkT8ULEXksAZAMh61XjLli",
+        "__v": 0
+    }
+]

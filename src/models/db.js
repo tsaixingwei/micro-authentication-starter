@@ -7,7 +7,9 @@ const options = {
     reconnectTries: Number.MAX_VALUE,
     reconnectInterval: 500,
     poolSize: 10,
-    bufferMaxEntries: 0
+    bufferMaxEntries: 0,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 };
 mongoose.connect(database, options);
 
