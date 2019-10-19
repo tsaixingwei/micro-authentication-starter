@@ -25,14 +25,29 @@ module.exports = async function(req, res) {
         send(res, 200, await users.setup());
         break;
 
-      case '/api/authentication':
-        return auth.login(req, res);
+      //case '/api/authentication':
+      //  return auth.login(req, res);
 
-      case '/api/users': // or any api call that requires token to access
-        if (auth.decode(req, res) !== null) {
+      case '/api/login':
+        return auth.login(req,res);
+
+      case '/api/verify': {
+        let payload = auth.decode(req, res);
+        if (payload !== null) {
+          send(res, 200, payload);
+        }
+        break;
+      }
+
+      case '/api/users': { // or any api call that requires token to access
+        let payload = auth.decode(req, res);
+        if (payload !== null) {
+          // console.log("Current user making api call: ", payload);
           send(res, 200, await users.list());
         }
         break;
+      }
+
       default:
         break;
     }

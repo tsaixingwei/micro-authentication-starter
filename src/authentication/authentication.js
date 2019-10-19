@@ -26,15 +26,29 @@ const attempt = (username, password) => {
 
 /**
  * Authenticate a user and generate a JWT if successful.
+ * TODO: handle iss, aud, and exp if passed into the token.
  */
-const auth = ({ username, password }) =>
+const auth = ({ username, password, iss, aud, exp }) =>
   attempt(username, password).then(({ id }) => {
-    let token = sign(id, secret); // basically encrypting User._id with secret as passphrase
+    const payload = {
+      id: id,
+      username: username,
+    };
+
+    // see: https://www.npmjs.com/package/jsonwebtoken
+    let options = {};
+    if (iss) options.issuer = iss;
+    if (aud) options.audience = aud;
+    if (exp) options.expiresIn = exp;
+    //console.log("options: ", options);
+
+    let token = sign(payload, secret, options);
     return { token: token };
   });
 
-
-const decode = token => verify(token, secret); // verify() basically decrypts the token with the secret and returns the User._id
+// the jsonwebtoken.verify() with also validation expiration, audience or issuer
+// if these exists in the token.
+const decode = token => verify(token, secret);
 
 module.exports.login = async (req, res) => {
   return await auth(await json(req));

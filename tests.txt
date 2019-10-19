@@ -7,26 +7,29 @@ $ MONGODB=mongodb://localhost/test2 SECRET=123456 npm run start
 
 Test login:
 
-POST /api/authentication HTTP/1.1
+POST /api/login HTTP/1.1
 Host: localhost:3000
 Content-Type: application/json
 cache-control: no-cache
-Postman-Token: 85401949-a0fd-4d2a-8523-64cbf0431cf9
-{ "username": "admin", "password": "password" }------WebKitFormBoundary7MA4YWxkTrZu0gW--
+Postman-Token: 8514ff26-daa5-4409-bae6-bb3ae7ff1df6
+{ "username": "admin", "password": "password", "iss": "my.auth.server.com", "aud": "my.business.system.com", "exp": "2 days" }------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 
 Response to the above is:
 {
-  "token": "eyJhbGciOiJIUzI1NiJ9.NWRhOTkzOTk0ZjdlMDIzY2Y4OWMwN2Q3.UsbdIchpuN-a14njjXpV5g1b3ME1GgSpgAIof-lajMs"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYTk5Mzk5NGY3ZTAyM2NmODljMDdkNyIsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE1NzE0OTE1NjMsImV4cCI6MTU3MTY2NDM2MywiYXVkIjoibXkuYnVzaW5lc3Muc3lzdGVtLmNvbSIsImlzcyI6Im15LmF1dGguc2VydmVyLmNvbSJ9.o1EOhA6VhySuOe48NJ7e8VJ934NeKJg3fq6AdLdO1mA"
 }
 
-Test verify token:
+
+
+Test retrieving protected data:
 
 GET /api/users HTTP/1.1
 Host: localhost:3000
-authorization: eyJhbGciOiJIUzI1NiJ9.NWRhOTkzOTk0ZjdlMDIzY2Y4OWMwN2Q3.UsbdIchpuN-a14njjXpV5g1b3ME1GgSpgAIof-lajMs
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYTk5Mzk5NGY3ZTAyM2NmODljMDdkNyIsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE1NzE0OTEwNTEsImV4cCI6MTU3MTY2Mzg1MSwiYXVkIjoibXkuYnVzaW5lc3Muc3lzdGVtLmNvbSIsImlzcyI6Im15LmF1dGguc2VydmVyLmNvbSJ9.iyveriuSwWx0NZyRAlNwtztB3Ryp-hx_nqFY8Aof9E4
 cache-control: no-cache
-Postman-Token: a1ccf545-4a82-46f4-a8a0-857f566c4f60
+Postman-Token: 0e6f070d-5899-4b7b-bd0a-3d6c145422e4
+
 
 
 Response to the above is:
@@ -39,3 +42,25 @@ Response to the above is:
         "__v": 0
     }
 ]
+
+
+
+Test verifying token:
+
+GET /api/verify HTTP/1.1
+Host: localhost:3000
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYTk5Mzk5NGY3ZTAyM2NmODljMDdkNyIsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE1NzE0OTEwNTEsImV4cCI6MTU3MTY2Mzg1MSwiYXVkIjoibXkuYnVzaW5lc3Muc3lzdGVtLmNvbSIsImlzcyI6Im15LmF1dGguc2VydmVyLmNvbSJ9.iyveriuSwWx0NZyRAlNwtztB3Ryp-hx_nqFY8Aof9E4
+cache-control: no-cache
+Postman-Token: 796135c8-3b0a-447a-963b-8206fa2c8bc8
+
+
+Response to above is:
+
+{
+    "id": "5da993994f7e023cf89c07d7",
+    "username": "admin",
+    "iat": 1571491051,
+    "exp": 1571663851,
+    "aud": "my.business.system.com",
+    "iss": "my.auth.server.com"
+}
