@@ -28,7 +28,7 @@ module.exports = async function(req, res) {
       case '/api/authentication':
         return auth.login(req, res);
 
-      case '/api/users':
+      case '/api/users': // or any api call that requires token to access
         if (auth.decode(req, res) !== null) {
           send(res, 200, await users.list());
         }
