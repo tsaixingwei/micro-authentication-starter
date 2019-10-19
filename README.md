@@ -1,6 +1,7 @@
 # micro-authentication-starter
 
-small starter project for a REST api with Authentication
+small starter project for a REST api with Authentication using username and password
+and generating JWT.
 
 ### included
 

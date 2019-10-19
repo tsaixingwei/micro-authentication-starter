@@ -29,12 +29,12 @@ const attempt = (username, password) => {
  */
 const auth = ({ username, password }) =>
   attempt(username, password).then(({ id }) => {
-    let token = sign(id, secret);
+    let token = sign(id, secret); // basically encrypting User._id with secret as passphrase
     return { token: token };
   });
 
 
-const decode = token => verify(token, secret); // verify() returns the User._id
+const decode = token => verify(token, secret); // verify() basically decrypts the token with the secret and returns the User._id
 
 module.exports.login = async (req, res) => {
   return await auth(await json(req));
