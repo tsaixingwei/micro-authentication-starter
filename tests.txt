@@ -53,6 +53,16 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYTk5Mzk5NGY3ZTAy
 cache-control: no-cache
 Postman-Token: 796135c8-3b0a-447a-963b-8206fa2c8bc8
 
+or
+
+GET /api/verify HTTP/1.1
+Host: localhost:3000
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYTk5Mzk5NGY3ZTAyM2NmODljMDdkNyIsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE1NzE0OTEwNTEsImV4cCI6MTU3MTY2Mzg1MSwiYXVkIjoibXkuYnVzaW5lc3Muc3lzdGVtLmNvbSIsImlzcyI6Im15LmF1dGguc2VydmVyLmNvbSJ9.iyveriuSwWx0NZyRAlNwtztB3Ryp-hx_nqFY8Aof9E4
+authorization-opts: { "iss": "my.auth.server.com", "aud": "my.business.system.com", "exp": "2 days" }
+cache-control: no-cache
+Postman-Token: ddce353c-d99d-457c-b6f4-383100ae2faf
+
+
 
 Response to above is:
 

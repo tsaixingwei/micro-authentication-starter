@@ -48,10 +48,22 @@ const auth = ({ username, password, iss, aud, exp }) =>
 
 // the jsonwebtoken.verify() with also validation expiration, audience or issuer
 // if these exists in the token.
-const decode = token => verify(token, secret);
+// TODO: provide options also to verify exp, aud, and iss if provided by caller
+const decode = (token, { iss, aud, exp }) => {
+  let options = {};
+  if (iss) options.issuer = iss;
+  if (aud) options.audience = aud;
+  if (exp) options.expiresIn = exp;
+  //console.log("options: ", options);
+  return verify(token, secret, options);
+}
 
 module.exports.login = async (req, res) => {
   return await auth(await json(req));
 }
 
-module.exports.decode = (req, res) => decode(req.headers['authorization']);
+module.exports.decode = async (req, res) => {
+  let opts = req.headers['authorization-opts'];
+  opts = opts ? JSON.parse(opts) : {};
+  return decode(req.headers['authorization'], opts);
+}

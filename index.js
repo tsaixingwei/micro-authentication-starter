@@ -32,7 +32,7 @@ module.exports = async function(req, res) {
         return auth.login(req,res);
 
       case '/api/verify': {
-        let payload = auth.decode(req, res);
+        let payload = await auth.decode(req, res);
         if (payload !== null) {
           send(res, 200, payload);
         }
